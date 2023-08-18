@@ -1,7 +1,3 @@
-# Ansible Installation
-
-Ansible is an open-source automation platform. It is very, very simple to set up and yet powerful. Ansible can help you with configuration management, application deployment, task automation.
-
 ### Pre-requisites
 
 1. An AWS EC2 instance (on Control node)
@@ -19,8 +15,8 @@ Ansible is an open-source automation platform. It is very, very simple to set up
     pip install ansible
    ansible --version
    ```
-   
-1. Create a user called ansadmin (on Control node and Managed host)  
+
+1. Create a user called ansadmin (on Control node and Managed host)
    ```sh
    useradd ansadmin
    passwd ansadmin
@@ -29,35 +25,35 @@ Ansible is an open-source automation platform. It is very, very simple to set up
    ```sh
    echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
    ```
-   
+
 1. Log in as a ansadmin user on master and generate ssh key (on Control node)
-   ```sh 
+   ```sh
    sudo su - ansadmin
    ssh-keygen
    ```
 1. Copy keys onto all ansible managed hosts (on Control node)
-   ```sh 
+   ```sh
    ssh-copy-id ansadmin@<target-server>
    ```
 
-1. Ansible server used to create images and store on docker registry. Hence install docker, start docker services and add ansadmin to the docker group. 
+1. Ansible server used to create images and store on docker registry. Hence install docker, start docker services and add ansadmin to the docker group.
    ```sh
    yum install docker
-   
-   # start docker services 
+
+   # start docker services
    service docker start
-   service docker start 
-   
-   # add user to docker group 
+   service docker start
+
+   # add user to docker group
    usermod -aG docker ansadmin
 
    ```
-1. Create a directory /etc/ansible and create an inventory file called "hosts" add control node and managed hosts IP addresses to it. 
- 
+1. Create a directory /etc/ansible and create an inventory file called "hosts" add control node and managed hosts IP addresses to it.
+
 ### Validation test
 
-   
+
 1. Run ansible command as ansadmin user it should be successful (Master)
-   ```sh 
+   ```sh
    ansible all -m ping
    ```

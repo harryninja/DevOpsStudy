@@ -1,28 +1,23 @@
-# Kubernetes Cluster installation using kubeadm
-Follow this documentation to set up a Kubernetes cluster on __CentOS__ 7 machines.
+## Prerequisites:
+1. System Requirements
+    >Master: t2.medium (2 CPUs and 2GB Memory)
+    >Worker Nodes: t2.micro
 
-This documentation guides you in setting up a cluster with one master node and two worker nodes.
-
-## Prerequisites: 
-1. System Requirements 
-    >Master: t2.medium (2 CPUs and 2GB Memory)   
-    >Worker Nodes: t2.micro 
-
-1. Open Below ports in the Security Group. 
-   #### Master node: 
-    `6443  
-    32750  
-    10250  
-    4443  
-    443  
+1. Open Below ports in the Security Group.
+   #### Master node:
+    `6443
+    32750
+    10250
+    4443
+    443
     8080 `
 
    ##### On Master node and Worker node:
-    `179`  
+    `179`
 
    ### `On Master and Worker:`
 1. Perform all the commands as root user unless otherwise specified
- 
+
    Install, Enable and start docker service.
    Use the Docker repository to install docker.
    > If you use docker from CentOS OS repository, the docker version might be old to work with Kubernetes v1.13.0 and above
@@ -32,7 +27,7 @@ This documentation guides you in setting up a cluster with one master node and t
    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo > /dev/null 2>&1
    yum install -y -q docker-ce >/dev/null 2>&1
    ```
-1. Start Docker services 
+1. Start Docker services
    ```sh
    systemctl enable docker
    systemctl start docker
@@ -61,7 +56,7 @@ This documentation guides you in setting up a cluster with one master node and t
    sysctl --system
    ```
 ## Kubernetes Setup
-1. Add yum repository for kubernetes packages 
+1. Add yum repository for kubernetes packages
     ```sh
     cat >>/etc/yum.repos.d/kubernetes.repo<<EOF
     [kubernetes]
@@ -88,20 +83,20 @@ This documentation guides you in setting up a cluster with one master node and t
     ```sh
     kubeadm init --apiserver-advertise-address=<MasterServerIP> --pod-network-cidr=192.168.0.0/16
     ```
-1. Create a user for kubernetes administration  and copy kube config file.   
-    ``To be able to use kubectl command to connect and interact with the cluster, the user needs kube config file.``  
+1. Create a user for kubernetes administration  and copy kube config file.
+    ``To be able to use kubectl command to connect and interact with the cluster, the user needs kube config file.``
     In this case, we are creating a user called `kubeadmin`
     ```sh
-    useradd kubeadmin 
+    useradd kubeadmin
     mkdir /home/kubeadmin/.kube
     cp /etc/kubernetes/admin.conf /home/kubeadmin/.kube/config
     chown -R kubeadmin:kubeadmin /home/kubeadmin/.kube
     ```
-1. Deploy Calico network as a __kubeadmin__ user. 
+1. Deploy Calico network as a __kubeadmin__ user.
 	> This should be executed as a user (heare as a __kubeadmin__ )
-    
+
     ```sh
-    sudo su - kubeadmin 
+    sudo su - kubeadmin
     kubectl create -f https://docs.projectcalico.org/v3.9/manifests/calico.yaml
     ```
 
@@ -110,7 +105,7 @@ This documentation guides you in setting up a cluster with one master node and t
     kubeadm token create --print-join-command
     ```
 ## `On Worker Node:`
-1. Add worker nodes to cluster 
+1. Add worker nodes to cluster
     > Use the output from __kubeadm token create__ command in previous step from the master server and run here.
 
 1. Verifying the cluster

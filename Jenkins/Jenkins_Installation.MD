@@ -1,13 +1,8 @@
-# Install Jenkins on AWS EC2
-Jenkins is a self-contained Java-based program, ready to run out-of-the-box, with packages for Windows, Mac OS X and other Unix-like operating systems. As an extensible automation server, Jenkins can be used as a simple CI server or turned into the continuous delivery hub for any project.
-
-### Follow this artical [On YouTube Channel](https://youtu.be/ERR7cqW28FY)
-
 ### Prerequisites
-1. EC2 Instance 
+1. EC2 Instance
    - With Internet Access
    - Security Group with Port `8080` open for internet
-1. Java 11 should be installed  
+1. Java 11 should be installed
 
 
 ## Install Jenkins
@@ -16,10 +11,10 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
    ```sh
    sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
    sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-   amazon-linux-extras install epel 
-   amazon-linux-extras install java-openjdk11  
-   
-   #on RedHat/CentOs 
+   amazon-linux-extras install epel
+   amazon-linux-extras install java-openjdk11
+
+   #on RedHat/CentOs
    #yum install epel-release # repository that provides 'daemonize'
    #yum install java-11-openjdk-devel
    #yum install jenkins
@@ -41,13 +36,13 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
    ```
   #### Configure Jenkins
 - The default Username is `admin`
-- Grab the default password 
+- Grab the default password
 - Password Location:`/var/lib/jenkins/secrets/initialAdminPassword`
 - `Skip` Plugin Installation; _We can do it later_
 - Change admin password
    - `Admin` > `Configure` > `Password`
 - Configure `java` path
-  - `Manage Jenkins` > `Global Tool Configuration` > `JDK`  
+  - `Manage Jenkins` > `Global Tool Configuration` > `JDK`
 - Create another admin user id
 
 ### Test Jenkins Jobs
@@ -56,6 +51,6 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
    - Chose `Freestyle` project
 1. Under the Build section
 	Execute shell: echo "Welcome to Jenkins Demo"
-1. Save your job 
+1. Save your job
 1. Build job
 1. Check "console output"
